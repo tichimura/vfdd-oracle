@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#
+# This is postupgrade script for Oracle 11g R2 PSR,
+# The target upgrade path is : 11.2.0.1 -> 11.2.0.2
+# Only tested for vFabric Data Director 2.5
+# This script should be used with Base DB Template for 11.2.0.2
+#
+
+sqlplus / as sysdba << EOF
+startup upgrade
+SPOOL upgrade.log
+@$ORACLE_HOME/rdbms/admin/catupgrd.sql
+startup
+@$ORACLE_HOME/rdbms/admin/utlu112s.sql
+@$ORACLE_HOME/rdbms/admin/catuppst.sql
+@$ORACLE_HOME/rdbms/admin/utlrp.sql
+quit
+EOF
